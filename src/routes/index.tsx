@@ -4,23 +4,69 @@ import { motion, useScroll, useTransform, useInView } from "motion/react";
 
 import logo from "@/assets/logo.asset.json";
 import post2 from "@/assets/post2.asset.json";
-import post3 from "@/assets/post3.asset.json";
-import post4 from "@/assets/post4.asset.json";
-import post5 from "@/assets/post5.asset.json";
 import post6 from "@/assets/post6.asset.json";
-import post7 from "@/assets/post7.asset.json";
 import post8 from "@/assets/post8.asset.json";
-import post9 from "@/assets/post9.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "ELEV8 Developments — Living, Elevated" },
-      { name: "description", content: "A Lebanese luxury real estate brand built on restraint, privacy, and clear architectural thinking." },
+      { title: "ELEV8 Developments — Where Living Is Elevated By Design" },
+      {
+        name: "description",
+        content:
+          "ELEV8 Developments — a Lebanese luxury residential brand. L'Écrin de Faqra: six private residences shaped by architecture, privacy, and restraint.",
+      },
     ],
   }),
   component: Index,
 });
+
+/* ---------- shared primitives ---------- */
+
+function Reveal({
+  children,
+  delay = 0,
+  y = 20,
+  className = "",
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  y?: number;
+  className?: string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-10% 0px -10% 0px" });
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 1.1, delay, ease: [0.22, 0.61, 0.36, 1] }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function MaskLine({ children, delay }: { children: React.ReactNode; delay: number }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-15% 0px" });
+  return (
+    <span ref={ref} className="block overflow-hidden">
+      <motion.span
+        initial={{ y: "110%" }}
+        animate={inView ? { y: 0 } : {}}
+        transition={{ duration: 1.1, delay, ease: [0.22, 0.61, 0.36, 1] }}
+        className="block"
+      >
+        {children}
+      </motion.span>
+    </span>
+  );
+}
+
+/* ---------- navigation ---------- */
 
 function Navigation() {
   const [visible, setVisible] = useState(true);
@@ -40,6 +86,9 @@ function Navigation() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const linkColor = atTop ? "text-background/85 hover:text-background" : "text-foreground/70 hover:text-foreground";
+  const labelColor = atTop ? "text-background/70" : "text-foreground/60";
+
   return (
     <motion.nav
       initial={{ opacity: 0, y: -8 }}
@@ -47,398 +96,348 @@ function Navigation() {
       transition={{ duration: 0.6, ease: [0.22, 0.61, 0.36, 1] }}
       className="fixed inset-x-0 top-0 z-50"
     >
-      <div className="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-6 md:px-12 md:py-8">
-        <a href="#top" className="flex items-center gap-3">
-          <img src={logo.url} alt="ELEV8" className="h-7 w-auto md:h-8" />
+      <div className="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-6 md:px-12 md:py-7">
+        <a href="#top" className="eyebrow font-semibold transition-colors duration-500" style={{ color: atTop ? "#F6F4EF" : "#003931" }}>
+          ELEV8
         </a>
-        <ul className="hidden items-center gap-10 md:flex">
-          {["About", "Philosophy", "Projects", "Contact"].map((item) => (
-            <li key={item}>
-              <a
-                href={`#${item.toLowerCase()}`}
-                className="eyebrow text-foreground/70 transition-colors duration-500 hover:text-foreground"
-              >
-                {item}
+        <ul className="hidden items-center gap-12 md:flex">
+          {[
+            { label: "Manifesto", href: "#manifesto" },
+            { label: "L'Écrin de Faqra", href: "#project" },
+            { label: "Why ELEV8", href: "#why" },
+            { label: "Enquire", href: "#enquire" },
+          ].map((item) => (
+            <li key={item.label}>
+              <a href={item.href} className={`eyebrow transition-colors duration-500 ${linkColor}`}>
+                {item.label}
               </a>
             </li>
           ))}
         </ul>
-        <span className="eyebrow hidden text-foreground/60 md:inline">Beirut · Lebanon</span>
-        <button className="eyebrow text-foreground/80 md:hidden">Menu</button>
+        <span className={`eyebrow hidden transition-colors duration-500 md:inline ${labelColor}`}>
+          Beirut · Lebanon
+        </span>
       </div>
-      <div
-        className="mx-auto h-px max-w-[1600px] bg-foreground/10 transition-opacity duration-700"
-        style={{ opacity: atTop ? 0 : 1 }}
-      />
     </motion.nav>
   );
 }
 
-function Reveal({ children, delay = 0, y = 24 }: { children: React.ReactNode; delay?: number; y?: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-10% 0px -10% 0px" });
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 1.2, delay, ease: [0.22, 0.61, 0.36, 1] }}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-function MaskImage({ src, alt, className = "" }: { src: string; alt: string; className?: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-15% 0px" });
-  return (
-    <div ref={ref} className={`relative overflow-hidden ${className}`}>
-      <motion.div
-        initial={{ scaleY: 1 }}
-        animate={inView ? { scaleY: 0 } : {}}
-        transition={{ duration: 1.4, ease: [0.76, 0, 0.24, 1] }}
-        style={{ transformOrigin: "top" }}
-        className="absolute inset-0 z-10 bg-background"
-      />
-      <motion.img
-        src={src}
-        alt={alt}
-        initial={{ scale: 1.15 }}
-        animate={inView ? { scale: 1 } : {}}
-        transition={{ duration: 1.8, ease: [0.22, 0.61, 0.36, 1] }}
-        className="h-full w-full object-cover"
-        loading="lazy"
-      />
-    </div>
-  );
-}
-
-function ParallaxImage({ src, alt, className = "" }: { src: string; alt: string; className?: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
-  return (
-    <div ref={ref} className={`relative overflow-hidden ${className}`}>
-      <motion.img
-        src={src}
-        alt={alt}
-        style={{ y, scale: 1.15 }}
-        className="h-full w-full object-cover"
-        loading="lazy"
-      />
-    </div>
-  );
-}
-
-function StatementSection({
-  image,
-  alt,
-  caption,
-  line1,
-  line2,
-  align = "left",
-}: {
-  image: string;
-  alt: string;
-  caption: string;
-  line1: string;
-  line2?: string;
-  align?: "left" | "right";
-}) {
-  const ImageBlock = (
-    <div className="col-span-12 md:col-span-7">
-      <MaskImage src={image} alt={alt} className="aspect-[4/5] w-full" />
-    </div>
-  );
-  const TextBlock = (
-    <div className={`col-span-12 flex flex-col justify-end md:col-span-5 md:pb-16 ${align === "left" ? "md:pl-8" : "md:pr-8"}`}>
-      <Reveal delay={0.4}>
-        <span className="eyebrow mb-8 block text-foreground/50">{caption}</span>
-        <h2 className="editorial text-[14vw] md:text-[7vw]">
-          {line1}
-          {line2 && (
-            <>
-              <br />
-              <span className="italic text-foreground/70" style={{ fontWeight: 300 }}>
-                {line2}
-              </span>
-            </>
-          )}
-        </h2>
-      </Reveal>
-    </div>
-  );
-
-  return (
-    <section className="relative min-h-screen w-full py-24 md:py-32">
-      <div className="mx-auto grid max-w-[1600px] grid-cols-12 gap-6 px-6 md:gap-10 md:px-12">
-        {align === "left" ? (
-          <>
-            {ImageBlock}
-            {TextBlock}
-          </>
-        ) : (
-          <>
-            {TextBlock}
-            {ImageBlock}
-          </>
-        )}
-      </div>
-    </section>
-  );
-}
-
-function ManifestoLine({ children, delay }: { children: React.ReactNode; delay: number }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-20% 0px" });
-  return (
-    <span ref={ref} className="block overflow-hidden">
-      <motion.span
-        initial={{ y: "110%" }}
-        animate={inView ? { y: 0 } : {}}
-        transition={{ duration: 1.1, delay, ease: [0.22, 0.61, 0.36, 1] }}
-        className="block"
-      >
-        {children}
-      </motion.span>
-    </span>
-  );
-}
-
-function ImmersiveGallery() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const y1 = useTransform(scrollYProgress, [0, 1], ["8%", "-8%"]);
-  const y2 = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"]);
-  const y3 = useTransform(scrollYProgress, [0, 1], ["4%", "-10%"]);
-  const y4 = useTransform(scrollYProgress, [0, 1], ["-6%", "10%"]);
-
-  return (
-    <section id="about" ref={ref} className="relative w-full py-32 md:py-48">
-      <div className="mx-auto max-w-[1600px] px-6 md:px-12">
-        <Reveal>
-          <span className="eyebrow mb-24 block text-foreground/50">A Vocabulary of Materials</span>
-        </Reveal>
-
-        <div className="grid grid-cols-12 gap-6 md:gap-10">
-          <motion.div style={{ y: y1 }} className="col-span-7 md:col-span-5">
-            <div className="aspect-[3/4] overflow-hidden">
-              <img src={post5.url} alt="Concrete texture" className="h-full w-full object-cover" loading="lazy" />
-            </div>
-            <p className="eyebrow mt-4 text-foreground/50">Concrete · Cast in place</p>
-          </motion.div>
-
-          <motion.div style={{ y: y2 }} className="col-span-5 mt-32 md:col-span-4 md:mt-48">
-            <div className="aspect-[3/4] overflow-hidden">
-              <img src={post9.url} alt="Stone bench in light" className="h-full w-full object-cover" loading="lazy" />
-            </div>
-            <p className="eyebrow mt-4 text-foreground/50">Travertine · Quiet weight</p>
-          </motion.div>
-
-          <div className="hidden md:col-span-3 md:block" />
-          <div className="hidden md:col-span-3 md:block" />
-
-          <motion.div style={{ y: y3 }} className="col-span-12 -mt-12 md:col-span-5 md:-mt-40">
-            <div className="aspect-[16/11] overflow-hidden">
-              <img src={post3.url} alt="Hand on stone, olive shadow" className="h-full w-full object-cover" loading="lazy" />
-            </div>
-            <p className="eyebrow mt-4 text-foreground/50">Light · As material</p>
-          </motion.div>
-
-          <motion.div style={{ y: y4 }} className="col-span-12 col-start-1 mt-16 md:col-span-6 md:col-start-4 md:mt-40">
-            <div className="aspect-[4/5] overflow-hidden">
-              <img src={post7.url} alt="Curved stair" className="h-full w-full object-cover" loading="lazy" />
-            </div>
-            <p className="eyebrow mt-4 text-foreground/50">Oak · Movement and rest</p>
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  );
-}
+/* ---------- page ---------- */
 
 function Index() {
   const heroRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress: heroProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const heroImgY = useTransform(heroProgress, [0, 1], ["0%", "20%"]);
-  const heroTextY = useTransform(heroProgress, [0, 1], ["0%", "-30%"]);
-  const heroOpacity = useTransform(heroProgress, [0, 0.8], [1, 0]);
+  const { scrollYProgress: heroProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  const heroImgY = useTransform(heroProgress, [0, 1], ["0%", "18%"]);
+  const heroTextY = useTransform(heroProgress, [0, 1], ["0%", "-25%"]);
+  const heroOpacity = useTransform(heroProgress, [0, 0.85], [1, 0]);
 
-  const manifestoLines = [
-    "ELEV8 is a Lebanese",
-    "luxury real estate brand",
-    "built on restraint,",
-    "privacy, and clear",
-    "architectural thinking.",
-  ];
+  const projectRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: projectProgress } = useScroll({
+    target: projectRef,
+    offset: ["start end", "end start"],
+  });
+  const projectImgY = useTransform(projectProgress, [0, 1], ["-8%", "8%"]);
 
   return (
     <main id="top" className="bg-background text-foreground">
       <Navigation />
 
-      {/* SECTION 1 — HERO */}
+      {/* ============ 1. HERO ============ */}
       <section ref={heroRef} className="relative h-screen w-full overflow-hidden">
         <motion.div style={{ y: heroImgY }} className="absolute inset-0">
-          <img src={post6.url} alt="Architectural facade against open sky" className="h-full w-full object-cover" />
+          <img
+            src={post6.url}
+            alt="ELEV8 — architectural facade against open sky"
+            className="h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,57,49,0.25)_0%,rgba(0,57,49,0)_30%,rgba(0,57,49,0)_60%,rgba(0,57,49,0.45)_100%)]" />
         </motion.div>
+
         <motion.div
           style={{ y: heroTextY, opacity: heroOpacity }}
           className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center"
         >
-          <Reveal delay={0.6} y={16}>
-            <h1
-              className="editorial text-[12vw] text-background md:text-[6.5vw]"
-              style={{ textShadow: "0 1px 30px rgba(0,0,0,0.15)" }}
-            >
-              Creating timeless places
-              <br />
-              <span className="italic text-background/90">shaped by architecture</span>
-            </h1>
+          <Reveal delay={0.4} y={12}>
+            <img src={logo.url} alt="ELEV8 Developments" className="mx-auto mb-12 h-14 w-auto md:h-16" />
           </Reveal>
-          <Reveal delay={1.1}>
-            <p className="mt-10 text-sm font-light tracking-wide text-background/85 md:text-base">
-              Where living is elevated by design.
-            </p>
+          <h1 className="editorial text-background text-[13vw] md:text-[7.5vw]">
+            <MaskLine delay={0.6}>Where Living</MaskLine>
+            <MaskLine delay={0.78}>Is Elevated</MaskLine>
+            <MaskLine delay={0.96}>By Design.</MaskLine>
+          </h1>
+          <Reveal delay={1.4}>
+            <a
+              href="#project"
+              className="group mt-14 inline-flex items-center gap-4 border-b border-background/40 pb-2 transition-colors duration-500 hover:border-background"
+            >
+              <span className="eyebrow text-background">Discover L'Écrin de Faqra</span>
+              <span className="block h-px w-8 origin-left bg-background/50 transition-all duration-500 group-hover:w-14 group-hover:bg-background" />
+            </a>
           </Reveal>
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.8, duration: 1.2 }}
           style={{ opacity: heroOpacity }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2"
+          className="absolute bottom-8 left-6 right-6 flex items-end justify-between md:left-12 md:right-12"
         >
-          <div className="flex flex-col items-center gap-3">
-            <span className="eyebrow text-background/80">Scroll</span>
-            <motion.div
-              animate={{ y: [0, 8, 0] }}
-              transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
-              className="h-10 w-px bg-background/60"
-            />
-          </div>
+          <span className="eyebrow text-background/80">ELEV8 — MMXXVI</span>
+          <span className="eyebrow text-background/80 hidden md:inline">Faqra · Lebanon</span>
         </motion.div>
       </section>
 
-      {/* SECTION 2 */}
-      <StatementSection
-        image={post4.url}
-        alt="Sculpted travertine facade"
-        caption="I — A Position"
-        line1="Intention,"
-        line2="not volume."
-        align="left"
-      />
+      {/* ============ 2. MANIFESTO ============ */}
+      <section id="manifesto" className="relative w-full py-40 md:py-56">
+        <div className="mx-auto grid max-w-[1500px] grid-cols-12 gap-6 px-6 md:gap-10 md:px-12">
+          <div className="col-span-12 md:col-span-3">
+            <Reveal>
+              <span className="eyebrow text-foreground/55">I — Manifesto</span>
+              <p className="mt-10 max-w-xs text-sm font-light leading-relaxed text-foreground/65">
+                Four convictions that shape every room, every façade, every threshold we draw.
+              </p>
+            </Reveal>
+          </div>
 
-      {/* SECTION 3 */}
-      <StatementSection
-        image={post7.url}
-        alt="Curved staircase in stone and oak"
-        caption="II"
-        line1="Architecture"
-        line2="over excess."
-        align="right"
-      />
-
-      {/* SECTION 4 */}
-      <StatementSection
-        image={post2.url}
-        alt="Sheer curtains framing a mountain view"
-        caption="III"
-        line1="Privacy"
-        line2="over density."
-        align="left"
-      />
-
-      {/* SECTION 5 */}
-      <StatementSection
-        image={post3.url}
-        alt="A hand on warm stone, shadows of olive"
-        caption="IV"
-        line1="Experience"
-        line2="over ownership."
-        align="right"
-      />
-
-      {/* SECTION 6 — MANIFESTO */}
-      <section id="philosophy" className="relative w-full bg-background py-48 md:py-64">
-        <div className="mx-auto max-w-[900px] px-6 text-center">
-          <Reveal>
-            <span className="eyebrow mb-16 block text-foreground/50">Manifesto</span>
-          </Reveal>
-          <h2 className="editorial text-[9vw] leading-[1.05] md:text-[4.5vw]">
-            {manifestoLines.map((line, i) => (
-              <ManifestoLine key={i} delay={i * 0.12}>
-                {line}
-              </ManifestoLine>
-            ))}
-          </h2>
+          <div className="col-span-12 md:col-span-9 md:pl-8">
+            <h2 className="editorial text-[10vw] md:text-[6.2vw]">
+              {[
+                ["Intention,", "not volume."],
+                ["Privacy", "over density."],
+                ["Architecture", "as identity."],
+                ["Living as a", "conscious choice."],
+              ].map(([a, b], i) => (
+                <span key={i} className="mt-2 block first:mt-0">
+                  <MaskLine delay={i * 0.12}>
+                    {a}{" "}
+                    <span className="font-light italic text-foreground/55">{b}</span>
+                  </MaskLine>
+                </span>
+              ))}
+            </h2>
+          </div>
         </div>
       </section>
 
-      {/* SECTION 7 — L'ECRIN */}
-      <section id="projects" className="relative w-full py-32 md:py-48">
-        <div className="mx-auto max-w-[1600px] px-6 md:px-12">
-          <ParallaxImage
-            src={post8.url}
-            alt="L'Écrin de Faqra — terrace at golden hour"
-            className="aspect-[16/10] w-full"
-          />
-          <div className="mx-auto mt-20 max-w-3xl text-center md:mt-32">
+      {/* ============ 3. L'ÉCRIN DE FAQRA ============ */}
+      <section
+        id="project"
+        ref={projectRef}
+        className="relative w-full bg-primary text-background"
+      >
+        <div className="mx-auto grid max-w-[1600px] grid-cols-12 gap-0 md:min-h-screen">
+          {/* Image */}
+          <div className="col-span-12 overflow-hidden md:col-span-7 md:h-screen md:sticky md:top-0">
+            <motion.img
+              src={post8.url}
+              alt="L'Écrin de Faqra — terraced residence at golden hour"
+              style={{ y: projectImgY, scale: 1.12 }}
+              className="h-[70vh] w-full object-cover md:h-full"
+              loading="lazy"
+            />
+          </div>
+
+          {/* Content */}
+          <div className="col-span-12 flex flex-col justify-center px-6 py-24 md:col-span-5 md:px-14 md:py-32">
             <Reveal>
-              <span className="eyebrow block text-foreground/50">L'ÉCRIN DE FAQRA</span>
+              <span className="eyebrow text-background/60">II — The First Address</span>
             </Reveal>
-            <Reveal delay={0.2}>
-              <h3 className="editorial mt-10 text-[11vw] md:text-[5.5vw]">
-                A rare <span className="italic text-foreground/75">address.</span>
-              </h3>
+            <Reveal delay={0.15}>
+              <h2 className="editorial mt-10 text-[12vw] md:text-[5.6vw]">
+                L'Écrin
+                <br />
+                <span className="font-light italic text-background/75">de Faqra.</span>
+              </h2>
             </Reveal>
+
+            <Reveal delay={0.3}>
+              <p className="mt-12 max-w-md text-base font-light leading-relaxed text-background/80 md:text-lg">
+                Set into the quiet contours of Faqra, L'Écrin is a single composition of six private residences —
+                drawn with restraint, framed by stone, and inhabited by light.
+              </p>
+            </Reveal>
+
             <Reveal delay={0.45}>
-              <div className="mx-auto mt-14 flex max-w-md flex-col gap-2 text-base font-light tracking-wide text-foreground/75 md:text-lg">
-                <p>Six residences.</p>
-                <p>One philosophy.</p>
-              </div>
+              <dl className="mt-16 grid grid-cols-2 gap-y-8 border-t border-background/15 pt-10 text-background/80">
+                {[
+                  ["Residences", "Six"],
+                  ["Location", "Faqra"],
+                  ["Typology", "Private"],
+                  ["Delivery", "MMXXVII"],
+                ].map(([k, v]) => (
+                  <div key={k}>
+                    <dt className="eyebrow text-background/50">{k}</dt>
+                    <dd className="mt-3 text-xl font-light tracking-tight md:text-2xl">{v}</dd>
+                  </div>
+                ))}
+              </dl>
             </Reveal>
-            <Reveal delay={0.65}>
+
+            <Reveal delay={0.6}>
               <a
-                href="#contact"
-                className="group mt-16 inline-flex items-center gap-4 border-b border-foreground/30 pb-2 transition-colors duration-500 hover:border-foreground"
+                href="#enquire"
+                className="group mt-16 inline-flex items-center gap-4 border-b border-background/30 pb-2 transition-colors duration-500 hover:border-background"
               >
-                <span className="eyebrow">Discover the story</span>
-                <span className="block h-px w-8 origin-left bg-foreground/40 transition-all duration-500 group-hover:w-14 group-hover:bg-foreground" />
+                <span className="eyebrow">Request the dossier</span>
+                <span className="block h-px w-8 origin-left bg-background/40 transition-all duration-500 group-hover:w-14 group-hover:bg-background" />
               </a>
             </Reveal>
           </div>
         </div>
       </section>
 
-      {/* SECTION 8 — Immersive Gallery */}
-      <ImmersiveGallery />
+      {/* ============ 4. WHY ELEV8 ============ */}
+      <section id="why" className="relative w-full py-40 md:py-56">
+        <div className="mx-auto max-w-[1500px] px-6 md:px-12">
+          <div className="grid grid-cols-12 gap-6 md:gap-10">
+            <div className="col-span-12 md:col-span-4">
+              <Reveal>
+                <span className="eyebrow text-foreground/55">III — Why ELEV8</span>
+                <h3 className="editorial mt-10 text-[10vw] md:text-[3.6vw]">
+                  A quiet
+                  <br />
+                  <span className="font-light italic text-foreground/60">standard.</span>
+                </h3>
+              </Reveal>
+            </div>
 
-      {/* SECTION 9 — Final Statement */}
-      <section id="contact" className="relative flex min-h-screen w-full flex-col items-center justify-center px-6 py-40">
-        <Reveal>
-          <h2 className="editorial text-center text-[16vw] md:text-[10vw]">
-            Living,
-            <br />
-            <span className="italic text-foreground/75">Elevated.</span>
-          </h2>
-        </Reveal>
-        <Reveal delay={0.4}>
-          <div className="mt-32 flex flex-col items-center gap-6">
-            <img src={logo.url} alt="ELEV8 Developments" className="h-10 w-auto opacity-90" />
-            <a
-              href="mailto:hello@elev8.dev"
-              className="eyebrow mt-6 border-b border-foreground/30 pb-1 text-foreground/70 transition-colors duration-500 hover:border-foreground hover:text-foreground"
-            >
-              hello@elev8.dev
-            </a>
+            <div className="col-span-12 md:col-span-8 md:pl-8">
+              <div className="grid grid-cols-1 gap-px bg-foreground/15 sm:grid-cols-2">
+                {[
+                  {
+                    n: "01",
+                    title: "Privacy",
+                    body: "Designed for the few. Discretion is the first material.",
+                  },
+                  {
+                    n: "02",
+                    title: "Architecture",
+                    body: "Form before façade. Each plan is drawn, not styled.",
+                  },
+                  {
+                    n: "03",
+                    title: "Exclusivity",
+                    body: "Limited residences, deliberate addresses, no repetition.",
+                  },
+                  {
+                    n: "04",
+                    title: "Design",
+                    body: "A vocabulary of stone, oak, and light — held with restraint.",
+                  },
+                ].map((item, i) => (
+                  <Reveal key={item.n} delay={i * 0.08}>
+                    <div className="flex h-full flex-col justify-between bg-background p-8 md:min-h-[260px] md:p-10">
+                      <div className="flex items-baseline justify-between">
+                        <span className="eyebrow text-foreground/45">{item.n}</span>
+                        <span className="eyebrow text-foreground/45">— ELEV8</span>
+                      </div>
+                      <div className="mt-16">
+                        <h4 className="text-3xl font-medium tracking-tight md:text-4xl">{item.title}</h4>
+                        <p className="mt-5 max-w-[28ch] text-sm font-light leading-relaxed text-foreground/65">
+                          {item.body}
+                        </p>
+                      </div>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
           </div>
-        </Reveal>
-        <div className="mt-32 flex w-full max-w-[1600px] items-center justify-between px-6">
-          <span className="eyebrow text-foreground/50">Beirut</span>
-          <span className="eyebrow text-foreground/50">MMXXVI</span>
+        </div>
+      </section>
+
+      {/* ============ 5. PRIVATE ENQUIRY ============ */}
+      <section id="enquire" className="relative w-full overflow-hidden">
+        <div className="absolute inset-0">
+          <img
+            src={post2.url}
+            alt=""
+            aria-hidden
+            className="h-full w-full object-cover opacity-[0.18]"
+          />
+          <div className="absolute inset-0 bg-background/70" />
+        </div>
+
+        <div className="relative mx-auto grid max-w-[1500px] grid-cols-12 gap-6 px-6 py-40 md:gap-10 md:px-12 md:py-56">
+          <div className="col-span-12 md:col-span-5">
+            <Reveal>
+              <span className="eyebrow text-foreground/55">IV — Private Enquiry</span>
+            </Reveal>
+            <Reveal delay={0.15}>
+              <h2 className="editorial mt-10 text-[12vw] md:text-[5vw]">
+                By
+                <br />
+                <span className="font-light italic text-foreground/60">invitation.</span>
+              </h2>
+            </Reveal>
+            <Reveal delay={0.3}>
+              <p className="mt-10 max-w-sm text-base font-light leading-relaxed text-foreground/70">
+                Residences at L'Écrin de Faqra are released privately to a small circle of clients and advisors.
+                Please write to begin a confidential conversation.
+              </p>
+            </Reveal>
+          </div>
+
+          <div className="col-span-12 md:col-span-6 md:col-start-7 md:pt-6">
+            <Reveal delay={0.2}>
+              <form className="space-y-10" onSubmit={(e) => e.preventDefault()}>
+                {[
+                  { id: "name", label: "Name", type: "text" },
+                  { id: "email", label: "Email", type: "email" },
+                  { id: "origin", label: "City / Country", type: "text" },
+                ].map((f) => (
+                  <div key={f.id}>
+                    <label htmlFor={f.id} className="eyebrow text-foreground/50">
+                      {f.label}
+                    </label>
+                    <input
+                      id={f.id}
+                      type={f.type}
+                      className="mt-4 block w-full border-b border-foreground/25 bg-transparent pb-3 text-lg font-light tracking-tight text-foreground outline-none transition-colors duration-300 focus:border-foreground"
+                    />
+                  </div>
+                ))}
+                <div>
+                  <label htmlFor="message" className="eyebrow text-foreground/50">
+                    Message
+                  </label>
+                  <textarea
+                    id="message"
+                    rows={3}
+                    className="mt-4 block w-full resize-none border-b border-foreground/25 bg-transparent pb-3 text-lg font-light tracking-tight text-foreground outline-none transition-colors duration-300 focus:border-foreground"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="group mt-6 inline-flex items-center gap-4 border-b border-foreground/40 pb-2 transition-colors duration-500 hover:border-foreground"
+                >
+                  <span className="eyebrow">Send enquiry</span>
+                  <span className="block h-px w-8 origin-left bg-foreground/50 transition-all duration-500 group-hover:w-16 group-hover:bg-foreground" />
+                </button>
+              </form>
+            </Reveal>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="relative border-t border-foreground/15">
+          <div className="mx-auto flex max-w-[1500px] flex-col gap-6 px-6 py-10 md:flex-row md:items-center md:justify-between md:px-12">
+            <div className="flex items-center gap-4">
+              <img src={logo.url} alt="ELEV8" className="h-6 w-auto opacity-80" />
+              <span className="eyebrow text-foreground/55">Where Living Is Elevated By Design</span>
+            </div>
+            <div className="flex items-center gap-10">
+              <a
+                href="mailto:private@elev8.dev"
+                className="eyebrow text-foreground/65 transition-colors duration-300 hover:text-foreground"
+              >
+                private@elev8.dev
+              </a>
+              <span className="eyebrow text-foreground/45">Beirut · MMXXVI</span>
+            </div>
+          </div>
         </div>
       </section>
     </main>
