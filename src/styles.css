@@ -10,10 +10,10 @@
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
   --color-stone-warm: var(--stone-warm);
-  --font-display: "Montserrat", "Helvetica Neue", Arial, sans-serif;
-  --font-sans: "Montserrat", "Helvetica Neue", Arial, sans-serif;
-  --tracking-editorial: -0.02em;
-  --tracking-eyebrow: 0.32em;
+  --font-display: "Jost", "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Jost", "Helvetica Neue", Arial, sans-serif;
+  --tracking-editorial: -0.03em;
+  --tracking-eyebrow: 0.36em;
 }
 
 :root {
@@ -29,10 +29,9 @@
     background-color: var(--background);
     color: var(--foreground);
     font-family: var(--font-sans);
-    font-weight: 300;
+    font-weight: 400;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-feature-settings: "ss01", "cv11";
   }
 
   ::selection {
@@ -53,7 +52,13 @@
 }
 
 @utility editorial {
-  font-weight: 300;
+  font-weight: 500;
   letter-spacing: var(--tracking-editorial);
-  line-height: 0.95;
+  line-height: 0.92;
+}
+
+@utility rule {
+  height: 1px;
+  background: currentColor;
+  opacity: 0.2;
 }
