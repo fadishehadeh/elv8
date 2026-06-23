@@ -2,10 +2,11 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, useInView } from "motion/react";
 
-import logo from "@/assets/logo.asset.json";
-import post2 from "@/assets/post2.asset.json";
-import post6 from "@/assets/post6.asset.json";
-import post8 from "@/assets/post8.asset.json";
+import logo from "@/assets/logo.svg";
+import kv1 from "@/assets/images/KV1.jpg";
+import kv2 from "@/assets/images/KV2.jpg";
+import kv3 from "@/assets/images/KV3.jpg";
+import post2 from "@/assets/images/Post 2.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -69,36 +70,33 @@ function MaskLine({ children, delay }: { children: React.ReactNode; delay: numbe
 /* ---------- navigation ---------- */
 
 function Navigation() {
-  const [visible, setVisible] = useState(true);
   const [atTop, setAtTop] = useState(true);
-  const lastY = useRef(0);
 
   useEffect(() => {
     const onScroll = () => {
-      const y = window.scrollY;
-      setAtTop(y < 80);
-      if (Math.abs(y - lastY.current) > 8) {
-        setVisible(y < lastY.current || y < 80);
-        lastY.current = y;
-      }
+      setAtTop(window.scrollY < 80);
     };
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const linkColor = atTop ? "text-background/85 hover:text-background" : "text-foreground/70 hover:text-foreground";
-  const labelColor = atTop ? "text-background/70" : "text-foreground/60";
+  const linkColor = "text-background/75 hover:text-background";
+  const labelColor = "text-background/60";
+  const barBg = atTop
+    ? "bg-transparent"
+    : "bg-foreground/95 border-b border-background/10 backdrop-blur-sm";
 
   return (
     <motion.nav
       initial={{ opacity: 0, y: -8 }}
-      animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : -8 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: [0.22, 0.61, 0.36, 1] }}
-      className="fixed inset-x-0 top-0 z-50"
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${barBg}`}
     >
-      <div className="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-6 md:px-12 md:py-7">
-        <a href="#top" className="eyebrow font-semibold transition-colors duration-500" style={{ color: atTop ? "#F6F4EF" : "#003931" }}>
-          ELEV8
+      <div className="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-5 md:px-12 md:py-6">
+        <a href="#top" className="flex items-center" aria-label="ELEV8 Developments">
+          <img src={logo} alt="ELEV8" className="h-8 w-auto brightness-0 invert md:h-10" />
         </a>
         <ul className="hidden items-center gap-12 md:flex">
           {[
@@ -114,7 +112,7 @@ function Navigation() {
             </li>
           ))}
         </ul>
-        <span className={`eyebrow hidden transition-colors duration-500 md:inline ${labelColor}`}>
+        <span className={`eyebrow hidden md:inline ${labelColor}`}>
           Beirut · Lebanon
         </span>
       </div>
@@ -141,6 +139,13 @@ function Index() {
   });
   const projectImgY = useTransform(projectProgress, [0, 1], ["-8%", "8%"]);
 
+  const heroSlides = [kv1, kv2, kv3];
+  const [heroSlide, setHeroSlide] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setHeroSlide((i) => (i + 1) % heroSlides.length), 6000);
+    return () => clearInterval(id);
+  }, [heroSlides.length]);
+
   return (
     <main id="top" className="bg-background text-foreground">
       <Navigation />
@@ -148,11 +153,18 @@ function Index() {
       {/* ============ 1. HERO ============ */}
       <section ref={heroRef} className="relative h-screen w-full overflow-hidden">
         <motion.div style={{ y: heroImgY }} className="absolute inset-0">
-          <img
-            src={post6.url}
-            alt="ELEV8 — architectural facade against open sky"
-            className="h-full w-full object-cover"
-          />
+          {heroSlides.map((src, i) => (
+            <motion.img
+              key={i}
+              src={src}
+              alt=""
+              aria-hidden
+              className="absolute inset-0 h-full w-full object-cover"
+              initial={false}
+              animate={{ opacity: i === heroSlide ? 1 : 0 }}
+              transition={{ duration: 1.4, ease: [0.22, 0.61, 0.36, 1] }}
+            />
+          ))}
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,57,49,0.25)_0%,rgba(0,57,49,0)_30%,rgba(0,57,49,0)_60%,rgba(0,57,49,0.45)_100%)]" />
         </motion.div>
 
@@ -161,12 +173,10 @@ function Index() {
           className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center"
         >
           <Reveal delay={0.4} y={12}>
-            <img src={logo.url} alt="ELEV8 Developments" className="mx-auto mb-12 h-14 w-auto md:h-16" />
+            <img src={logo} alt="ELEV8 Developments" className="mx-auto mb-12 h-20 w-auto md:h-28" />
           </Reveal>
-          <h1 className="editorial text-background text-[13vw] md:text-[7.5vw]">
-            <MaskLine delay={0.6}>Where Living</MaskLine>
-            <MaskLine delay={0.78}>Is Elevated</MaskLine>
-            <MaskLine delay={0.96}>By Design.</MaskLine>
+          <h1 className="editorial text-background text-[10vw] leading-[2] md:text-[5vw]">
+            <MaskLine delay={0.6}>Living Elevated.</MaskLine>
           </h1>
           <Reveal delay={1.4}>
             <a
@@ -230,7 +240,7 @@ function Index() {
           {/* Image */}
           <div className="col-span-12 overflow-hidden md:col-span-7 md:h-screen md:sticky md:top-0">
             <motion.img
-              src={post8.url}
+              src={post2}
               alt="L'Écrin de Faqra — terraced residence at golden hour"
               style={{ y: projectImgY, scale: 1.12 }}
               className="h-[70vh] w-full object-cover md:h-full"
@@ -351,7 +361,7 @@ function Index() {
       <section id="enquire" className="relative w-full overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src={post2.url}
+            src={kv2}
             alt=""
             aria-hidden
             className="h-full w-full object-cover opacity-[0.18]"
@@ -425,7 +435,7 @@ function Index() {
         <div className="relative border-t border-foreground/15">
           <div className="mx-auto flex max-w-[1500px] flex-col gap-6 px-6 py-10 md:flex-row md:items-center md:justify-between md:px-12">
             <div className="flex items-center gap-4">
-              <img src={logo.url} alt="ELEV8" className="h-6 w-auto opacity-80" />
+              <img src={logo} alt="ELEV8" className="h-6 w-auto opacity-80" />
               <span className="eyebrow text-foreground/55">Where Living Is Elevated By Design</span>
             </div>
             <div className="flex items-center gap-10">
