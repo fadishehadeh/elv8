@@ -9,38 +9,162 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WhyChooseUsRouteImport } from './routes/why-choose-us'
+import { Route as GalleryRouteImport } from './routes/gallery'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProjectsIndexRouteImport } from './routes/projects/index'
+import { Route as ProjectsLecrinDeFaqraRouteImport } from './routes/projects/lecrin-de-faqra'
+import { Route as ProjectsAchrafiehResidencesRouteImport } from './routes/projects/achrafieh-residences'
 
+const WhyChooseUsRoute = WhyChooseUsRouteImport.update({
+  id: '/why-choose-us',
+  path: '/why-choose-us',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GalleryRoute = GalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProjectsIndexRoute = ProjectsIndexRouteImport.update({
+  id: '/projects/',
+  path: '/projects/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsLecrinDeFaqraRoute = ProjectsLecrinDeFaqraRouteImport.update({
+  id: '/projects/lecrin-de-faqra',
+  path: '/projects/lecrin-de-faqra',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsAchrafiehResidencesRoute =
+  ProjectsAchrafiehResidencesRouteImport.update({
+    id: '/projects/achrafieh-residences',
+    path: '/projects/achrafieh-residences',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/gallery': typeof GalleryRoute
+  '/why-choose-us': typeof WhyChooseUsRoute
+  '/projects/achrafieh-residences': typeof ProjectsAchrafiehResidencesRoute
+  '/projects/lecrin-de-faqra': typeof ProjectsLecrinDeFaqraRoute
+  '/projects/': typeof ProjectsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/gallery': typeof GalleryRoute
+  '/why-choose-us': typeof WhyChooseUsRoute
+  '/projects/achrafieh-residences': typeof ProjectsAchrafiehResidencesRoute
+  '/projects/lecrin-de-faqra': typeof ProjectsLecrinDeFaqraRoute
+  '/projects': typeof ProjectsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/gallery': typeof GalleryRoute
+  '/why-choose-us': typeof WhyChooseUsRoute
+  '/projects/achrafieh-residences': typeof ProjectsAchrafiehResidencesRoute
+  '/projects/lecrin-de-faqra': typeof ProjectsLecrinDeFaqraRoute
+  '/projects/': typeof ProjectsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/gallery'
+    | '/why-choose-us'
+    | '/projects/achrafieh-residences'
+    | '/projects/lecrin-de-faqra'
+    | '/projects/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/gallery'
+    | '/why-choose-us'
+    | '/projects/achrafieh-residences'
+    | '/projects/lecrin-de-faqra'
+    | '/projects'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/gallery'
+    | '/why-choose-us'
+    | '/projects/achrafieh-residences'
+    | '/projects/lecrin-de-faqra'
+    | '/projects/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  ContactRoute: typeof ContactRoute
+  GalleryRoute: typeof GalleryRoute
+  WhyChooseUsRoute: typeof WhyChooseUsRoute
+  ProjectsAchrafiehResidencesRoute: typeof ProjectsAchrafiehResidencesRoute
+  ProjectsLecrinDeFaqraRoute: typeof ProjectsLecrinDeFaqraRoute
+  ProjectsIndexRoute: typeof ProjectsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/why-choose-us': {
+      id: '/why-choose-us'
+      path: '/why-choose-us'
+      fullPath: '/why-choose-us'
+      preLoaderRoute: typeof WhyChooseUsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gallery': {
+      id: '/gallery'
+      path: '/gallery'
+      fullPath: '/gallery'
+      preLoaderRoute: typeof GalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +172,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/projects/': {
+      id: '/projects/'
+      path: '/projects'
+      fullPath: '/projects/'
+      preLoaderRoute: typeof ProjectsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects/lecrin-de-faqra': {
+      id: '/projects/lecrin-de-faqra'
+      path: '/projects/lecrin-de-faqra'
+      fullPath: '/projects/lecrin-de-faqra'
+      preLoaderRoute: typeof ProjectsLecrinDeFaqraRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects/achrafieh-residences': {
+      id: '/projects/achrafieh-residences'
+      path: '/projects/achrafieh-residences'
+      fullPath: '/projects/achrafieh-residences'
+      preLoaderRoute: typeof ProjectsAchrafiehResidencesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  ContactRoute: ContactRoute,
+  GalleryRoute: GalleryRoute,
+  WhyChooseUsRoute: WhyChooseUsRoute,
+  ProjectsAchrafiehResidencesRoute: ProjectsAchrafiehResidencesRoute,
+  ProjectsLecrinDeFaqraRoute: ProjectsLecrinDeFaqraRoute,
+  ProjectsIndexRoute: ProjectsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

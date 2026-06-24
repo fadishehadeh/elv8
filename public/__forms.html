@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Netlify Forms — ELEV8</title>
+  </head>
+  <body>
+    <!--
+      This file exists solely so Netlify can detect form definitions at build time.
+      The runtime form lives in src/routes/contact.tsx and POSTs to "/".
+    -->
+    <form name="enquiry" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="tel" name="phone" />
+      <input type="email" name="email" />
+      <input type="text" name="project" />
+      <textarea name="message"></textarea>
+      <input type="text" name="bot-field" />
+    </form>
+  </body>
+</html>
