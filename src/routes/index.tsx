@@ -127,9 +127,9 @@ function Index() {
             <img src={logo} alt="ELEV8 Developments" className="mx-auto mb-12 h-20 w-auto brightness-0 invert md:h-28" />
           </Reveal>
           <h1 className="editorial text-background text-[10vw] leading-[1.05] md:text-[5vw]">
-            <MaskLine delay={0.6}>Living Elevated.</MaskLine>
+            <MaskLine delay={0.6}>Living Elevated</MaskLine>
           </h1>
-          <h2 className="editorial mt-4 text-[6vw] font-light italic text-background/80 md:text-[2.6vw]">
+          <h2 className="editorial mt-4 text-[6vw] font-light italic leading-[1.25] text-background/80 md:text-[2.6vw]">
             <MaskLine delay={0.95}>Discover Exceptional Living.</MaskLine>
           </h2>
           <Reveal delay={1.4}>
@@ -171,7 +171,7 @@ function Index() {
           <div className="col-span-12 md:col-span-9 md:pl-8">
             <Reveal delay={0.1}>
               <p className="editorial text-[7vw] leading-[1.1] tracking-tight md:text-[3.4vw]">
-                <span className="font-medium">elev8 Properties</span>{" "}
+                <span className="font-medium">Elev8 Properties</span>{" "}
                 <span className="font-light italic text-foreground/65">
                   is redefining the luxury real estate landscape in Lebanon, offering a distinguished portfolio of iconic residential, commercial, and leisure developments.
                 </span>
