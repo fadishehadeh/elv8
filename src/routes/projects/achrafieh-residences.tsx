@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 import { motion, useInView } from "motion/react";
 
 import { Navigation } from "@/components/Navigation";
-import post5 from "@/assets/images/Post 5.jpg";
+import g5 from "@/assets/images/gallery5.jpeg";
 
 export const Route = createFileRoute("/projects/achrafieh-residences")({
   head: () => ({
@@ -46,7 +46,7 @@ function AchrafiehPage() {
       {/* Hero — blurred teaser */}
       <section className="relative h-[80vh] w-full overflow-hidden md:h-screen">
         <img
-          src={post5}
+          src={g5}
           alt=""
           aria-hidden
           className="absolute inset-0 h-full w-full scale-110 object-cover blur-lg"

@@ -4,18 +4,17 @@ import { motion, useInView } from "motion/react";
 
 import { Navigation } from "@/components/Navigation";
 import { Lightbox } from "@/components/Lightbox";
-import kv1 from "@/assets/images/KV1.jpg";
-import kv2 from "@/assets/images/KV2.jpg";
-import kv3 from "@/assets/images/KV3.jpg";
-import post1 from "@/assets/images/Post 1.jpg";
-import post2 from "@/assets/images/Post 2.jpg";
-import post3 from "@/assets/images/Post 3.jpg";
-import post4 from "@/assets/images/Post 4.jpg";
-import post5 from "@/assets/images/Post 5.jpg";
-import post6 from "@/assets/images/Post 6.jpg";
-import post7 from "@/assets/images/Post 7.jpg";
-import post8 from "@/assets/images/Post 8.jpg";
-import post9 from "@/assets/images/Post 9.jpg";
+import g1 from "@/assets/images/gallery1.jpeg";
+import g2 from "@/assets/images/gallery2.jpeg";
+import g3 from "@/assets/images/gallery3.jpeg";
+import g4 from "@/assets/images/gallery4.jpeg";
+import g5 from "@/assets/images/gallery5.jpeg";
+import g6 from "@/assets/images/gallery6.jpeg";
+import g7 from "@/assets/images/gallery7.jpeg";
+import g8 from "@/assets/images/gallery8.png";
+import g9 from "@/assets/images/gallery9.png";
+import g10 from "@/assets/images/gallery10.png";
+import g11 from "@/assets/images/gallery11.png";
 
 export const Route = createFileRoute("/gallery")({
   head: () => ({
@@ -31,18 +30,17 @@ export const Route = createFileRoute("/gallery")({
 });
 
 const images = [
-  { src: kv1, alt: "L'Écrin de Faqra — key view 1" },
-  { src: kv2, alt: "L'Écrin de Faqra — key view 2" },
-  { src: kv3, alt: "L'Écrin de Faqra — key view 3" },
-  { src: post1, alt: "L'Écrin de Faqra — exterior 1" },
-  { src: post2, alt: "L'Écrin de Faqra — exterior 2" },
-  { src: post3, alt: "L'Écrin de Faqra — exterior 3" },
-  { src: post4, alt: "L'Écrin de Faqra — detail 1" },
-  { src: post5, alt: "L'Écrin de Faqra — detail 2" },
-  { src: post6, alt: "L'Écrin de Faqra — detail 3" },
-  { src: post7, alt: "L'Écrin de Faqra — interior 1" },
-  { src: post8, alt: "L'Écrin de Faqra — interior 2" },
-  { src: post9, alt: "L'Écrin de Faqra — interior 3" },
+  { src: g1, alt: "ELEV8 — gallery 1" },
+  { src: g2, alt: "ELEV8 — gallery 2" },
+  { src: g3, alt: "ELEV8 — gallery 3" },
+  { src: g4, alt: "ELEV8 — gallery 4" },
+  { src: g5, alt: "ELEV8 — gallery 5" },
+  { src: g6, alt: "ELEV8 — gallery 6" },
+  { src: g7, alt: "ELEV8 — gallery 7" },
+  { src: g8, alt: "ELEV8 — gallery 8" },
+  { src: g9, alt: "ELEV8 — gallery 9" },
+  { src: g10, alt: "ELEV8 — gallery 10" },
+  { src: g11, alt: "ELEV8 — gallery 11" },
 ];
 
 function Tile({ idx, onOpen }: { idx: number; onOpen: (i: number) => void }) {

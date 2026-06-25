@@ -1,16 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, useInView } from "motion/react";
-import { Trees, Mountain } from "lucide-react";
+import { LandscapeIcon, TerraceIcon } from "@/components/icons/AmenityIcons";
 
 import { Navigation } from "@/components/Navigation";
 import logo from "@/assets/logo.svg";
 import kv1 from "@/assets/images/KV1.jpg";
 import kv2 from "@/assets/images/KV2.jpg";
 import kv3 from "@/assets/images/KV3.jpg";
-import post1 from "@/assets/images/Post 1.jpg";
-import post2 from "@/assets/images/Post 2.jpg";
-import post5 from "@/assets/images/Post 5.jpg";
+import g2 from "@/assets/images/gallery2.jpeg";
+import g5 from "@/assets/images/gallery5.jpeg";
+import ecrin from "@/assets/ecrin.jpeg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -124,7 +124,7 @@ function Index() {
           className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center"
         >
           <Reveal delay={0.4} y={12}>
-            <img src={logo} alt="ELEV8 Developments" className="mx-auto mb-12 h-20 w-auto md:h-28" />
+            <img src={logo} alt="ELEV8 Developments" className="mx-auto mb-12 h-20 w-auto brightness-0 invert md:h-28" />
           </Reveal>
           <h1 className="editorial text-background text-[10vw] leading-[1.05] md:text-[5vw]">
             <MaskLine delay={0.6}>Living Elevated.</MaskLine>
@@ -156,7 +156,6 @@ function Index() {
           className="absolute bottom-8 left-6 right-6 flex items-end justify-between md:left-12 md:right-12"
         >
           <span className="eyebrow text-background/80">ELEV8 — MMXXVI</span>
-          <span className="eyebrow text-background/80 hidden md:inline">Faqra · Lebanon</span>
         </motion.div>
       </section>
 
@@ -208,7 +207,7 @@ function Index() {
                   >
                     <div className="relative aspect-[4/5] overflow-hidden bg-foreground/10">
                       <img
-                        src={post1}
+                        src={ecrin}
                         alt="L'Écrin de Faqra"
                         className="h-full w-full object-cover transition-transform duration-[1600ms] ease-out group-hover:scale-105"
                         loading="lazy"
@@ -233,7 +232,7 @@ function Index() {
                   <div className="group block cursor-default" aria-disabled="true">
                     <div className="relative aspect-[4/5] overflow-hidden bg-foreground/10">
                       <img
-                        src={post5}
+                        src={g5}
                         alt=""
                         aria-hidden
                         className="h-full w-full scale-110 object-cover blur-md"
@@ -268,8 +267,8 @@ function Index() {
           {/* Image */}
           <div className="col-span-12 overflow-hidden md:col-span-7 md:h-screen md:sticky md:top-0">
             <motion.img
-              src={post2}
-              alt="L'Écrin de Faqra — terraced residence at golden hour"
+              src={ecrin}
+              alt="L'Écrin de Faqra — interior view through sheer curtains"
               style={{ y: projectImgY, scale: 1.12 }}
               className="h-[70vh] w-full object-cover md:h-full"
               loading="lazy"
@@ -349,13 +348,13 @@ function Index() {
                 {[
                   {
                     n: "01",
-                    icon: Trees,
+                    icon: LandscapeIcon,
                     title: "Landscaped Gardens",
                     body: "Curated greenery framing every residence, designed to mature with the seasons.",
                   },
                   {
                     n: "02",
-                    icon: Mountain,
+                    icon: TerraceIcon,
                     title: "Private Terrace",
                     body: "An outdoor room of one's own — open to the Faqra horizon, held in stone.",
                   },
@@ -368,8 +367,7 @@ function Index() {
                       </div>
                       <div className="mt-12">
                         <item.icon
-                          strokeWidth={1}
-                          className="h-12 w-12 text-foreground/75 md:h-14 md:w-14"
+                          className="h-[60px] w-[60px] text-foreground/75 md:h-[70px] md:w-[70px]"
                           aria-hidden
                         />
                         <h4 className="mt-8 text-2xl font-medium tracking-tight md:text-3xl">
@@ -452,7 +450,7 @@ function Index() {
       <section id="enquire" className="relative w-full overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src={kv2}
+            src={g2}
             alt=""
             aria-hidden
             className="h-full w-full object-cover opacity-[0.18]"
@@ -531,10 +529,10 @@ function Index() {
             </div>
             <div className="flex items-center gap-10">
               <a
-                href="mailto:private@elev8.dev"
+                href="mailto:ralph@elev8dev.com"
                 className="eyebrow text-foreground/65 transition-colors duration-300 hover:text-foreground"
               >
-                private@elev8.dev
+                ralph@elev8dev.com
               </a>
               <span className="eyebrow text-foreground/45">Beirut · MMXXVI</span>
             </div>

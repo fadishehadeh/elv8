@@ -3,8 +3,8 @@ import { useEffect, useRef } from "react";
 import { motion, useInView } from "motion/react";
 
 import { Navigation } from "@/components/Navigation";
-import post1 from "@/assets/images/Post 1.jpg";
-import post5 from "@/assets/images/Post 5.jpg";
+import ecrin from "@/assets/ecrin.jpeg";
+import g5 from "@/assets/images/gallery5.jpeg";
 
 export const Route = createFileRoute("/projects/")({
   head: () => ({
@@ -43,7 +43,7 @@ const projects = [
     titleItalic: "de Faqra",
     description:
       "Six private residences set into the quiet contours of Faqra — drawn with restraint, framed by stone, and inhabited by light.",
-    image: post1,
+    image: ecrin,
     status: "active" as const,
     cta: "Explore the residence",
   },
@@ -54,7 +54,7 @@ const projects = [
     titleItalic: "Soon",
     description:
       "An intimate composition rising in the heart of Achrafieh. Details will be released privately to a small circle of clients and advisors.",
-    image: post5,
+    image: g5,
     status: "soon" as const,
     cta: "Register your interest",
   },

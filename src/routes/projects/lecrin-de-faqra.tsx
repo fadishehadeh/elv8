@@ -1,13 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef } from "react";
 import { motion, useInView } from "motion/react";
-import { Trees, Mountain } from "lucide-react";
+import { LandscapeIcon, TerraceIcon } from "@/components/icons/AmenityIcons";
 
 import { Navigation } from "@/components/Navigation";
-import post1 from "@/assets/images/Post 1.jpg";
-import post2 from "@/assets/images/Post 2.jpg";
-import post3 from "@/assets/images/Post 3.jpg";
-import post4 from "@/assets/images/Post 4.jpg";
+import ecrin from "@/assets/ecrin.jpeg";
+import g2 from "@/assets/images/gallery2.jpeg";
+import g3 from "@/assets/images/gallery3.jpeg";
+import g4 from "@/assets/images/gallery4.jpeg";
 
 export const Route = createFileRoute("/projects/lecrin-de-faqra")({
   head: () => ({
@@ -48,13 +48,13 @@ const specs = [
 const amenities = [
   {
     n: "01",
-    icon: Trees,
+    icon: LandscapeIcon,
     title: "Landscaped Gardens",
     body: "Curated greenery framing every residence, designed to mature with the seasons.",
   },
   {
     n: "02",
-    icon: Mountain,
+    icon: TerraceIcon,
     title: "Private Terrace",
     body: "An outdoor room of one's own — open to the Faqra horizon, held in stone.",
   },
@@ -71,7 +71,7 @@ function LecrinPage() {
 
       {/* Hero */}
       <section className="relative h-[80vh] w-full overflow-hidden md:h-screen">
-        <img src={post1} alt="L'Écrin de Faqra" className="absolute inset-0 h-full w-full object-cover" />
+        <img src={ecrin} alt="L'Écrin de Faqra" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-b from-foreground/40 via-foreground/10 to-foreground/60" />
         <div className="relative z-10 mx-auto flex h-full max-w-[1600px] flex-col justify-end px-6 pb-20 md:px-12 md:pb-28">
           <Reveal>
@@ -117,7 +117,7 @@ function LecrinPage() {
 
       {/* Imagery strip */}
       <section className="grid grid-cols-1 gap-px bg-foreground/15 md:grid-cols-2">
-        {[post2, post3, post4].map((img, i) => (
+        {[g2, g3, g4].map((img, i) => (
           <div key={i} className={`relative aspect-[4/3] overflow-hidden bg-background ${i === 0 ? "md:col-span-2 md:aspect-[16/7]" : ""}`}>
             <img src={img} alt="" className="h-full w-full object-cover" loading="lazy" />
           </div>
@@ -150,7 +150,7 @@ function LecrinPage() {
                       <span className="eyebrow text-foreground/45">— ELEV8</span>
                     </div>
                     <div className="mt-12">
-                      <item.icon strokeWidth={1} className="h-12 w-12 text-foreground/75 md:h-14 md:w-14" aria-hidden />
+                      <item.icon className="h-[60px] w-[60px] text-foreground/75 md:h-[70px] md:w-[70px]" aria-hidden />
                       <h4 className="mt-8 text-2xl font-medium tracking-tight md:text-3xl">{item.title}</h4>
                       <p className="mt-4 max-w-[32ch] text-sm font-light leading-relaxed text-foreground/65">{item.body}</p>
                     </div>

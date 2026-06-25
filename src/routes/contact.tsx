@@ -94,8 +94,8 @@ function ContactPage() {
                 <div>
                   <dt className="eyebrow text-foreground/50">Email</dt>
                   <dd className="mt-3 text-lg font-light tracking-tight md:text-xl">
-                    <a href="mailto:info@elev8properties.com" className="border-b border-foreground/20 pb-0.5 transition-colors hover:border-foreground">
-                      info@elev8properties.com
+                    <a href="mailto:ralph@elev8dev.com" className="border-b border-foreground/20 pb-0.5 transition-colors hover:border-foreground">
+                      ralph@elev8dev.com
                     </a>
                   </dd>
                 </div>
